@@ -1,0 +1,6 @@
+@NiflheimsForge_HostAddress = http://localhost:5031
+
+GET {{NiflheimsForge_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
