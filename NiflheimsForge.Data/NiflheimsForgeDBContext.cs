@@ -16,13 +16,8 @@ namespace NiflheimsForge.Data;
 public class NiflheimsForgeDBContext : DbContext
 {
     public DbSet<Country> Countries { get; set; }
-    private readonly string _connectionString;
-    public NiflheimsForgeDBContext(IConfiguration configuration)
-    {
-        _connectionString = configuration?.GetConnectionString("DefaultConnection") ?? throw new ArgumentNullException(nameof(configuration));
-    }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder dbContextOptionsBuilder) => dbContextOptionsBuilder.UseSqlServer(_connectionString);
+    protected override void OnConfiguring(DbContextOptionsBuilder dbContextOptionsBuilder) => dbContextOptionsBuilder.UseSqlServer("Server=localhost;Database=NiflheimsForge;Integrated Security=True;Encrypt=True;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

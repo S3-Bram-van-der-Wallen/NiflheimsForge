@@ -15,13 +15,9 @@ namespace NiflheimsForge.Repository;
 public class CountryRepository : ICountryRepository
 {
     private readonly IConfiguration _configuration;
-    public CountryRepository(IConfiguration configuration)
-    {
-        _configuration = configuration;
-    }
     public async Task<List<CountryDTO>> GetAllCountries()
     {
-        using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext(_configuration))
+        using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext())
         {
             List<CountryDTO> countries = await db.Countries
                 .Select(country => new CountryDTO
@@ -38,7 +34,7 @@ public class CountryRepository : ICountryRepository
 
     public async Task<Country> GetCountryByIdAsync(Guid countryId)
     {
-        using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext(_configuration))
+        using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext())
         {
             return await db.Countries.FirstOrDefaultAsync(country => country.Id == countryId);
         }
@@ -46,7 +42,7 @@ public class CountryRepository : ICountryRepository
 
     public async Task<bool> CreateCountryAsync(Country countryToCreate)
     {
-        using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext(_configuration))
+        using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext())
         {
             try
             {
@@ -62,7 +58,7 @@ public class CountryRepository : ICountryRepository
 
     public async Task<bool> UpdateCountryAsync(Country countryToUpdate)
     {
-        using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext(_configuration))
+        using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext())
         {
             try
             {
@@ -78,7 +74,7 @@ public class CountryRepository : ICountryRepository
 
     public async Task<bool> DeleteCountryAsync(Guid countryId)
     {
-        using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext(_configuration))
+        using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext())
         {
             try
             {
