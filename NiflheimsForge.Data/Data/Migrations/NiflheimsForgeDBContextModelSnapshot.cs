@@ -45,37 +45,37 @@ namespace NiflheimsForge.Data.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e7ecf0a1-c847-43e4-bce9-48caf8cbbd66"),
+                            Id = new Guid("88adeff1-15c3-43da-8660-1871f44cb5f9"),
                             Description = "This is country number 1",
                             Name = "Country 1"
                         },
                         new
                         {
-                            Id = new Guid("f78962a9-cba1-4d4b-842f-2aa75817f178"),
+                            Id = new Guid("20d0cc3e-031d-48e6-8ccf-a97a53ab5574"),
                             Description = "This is country number 2",
                             Name = "Country 2"
                         },
                         new
                         {
-                            Id = new Guid("cf47d908-2b81-4060-8b54-2adc695929fd"),
+                            Id = new Guid("ae78d369-5e9f-4b1c-ae64-be53b37bfc1c"),
                             Description = "This is country number 3",
                             Name = "Country 3"
                         },
                         new
                         {
-                            Id = new Guid("ffeb8f52-948a-4071-bba0-eb2d2a83eea6"),
+                            Id = new Guid("256b71c2-2256-4eec-b2f4-9b709370e764"),
                             Description = "This is country number 4",
                             Name = "Country 4"
                         },
                         new
                         {
-                            Id = new Guid("1cfa60c5-dc48-4c46-93e6-8be1900143e2"),
+                            Id = new Guid("d92322e5-9210-48c3-8882-2ac26768ebac"),
                             Description = "This is country number 5",
                             Name = "Country 5"
                         },
                         new
                         {
-                            Id = new Guid("33e3046e-83f3-4e1d-bfda-07d565f192d4"),
+                            Id = new Guid("2b3a8ec4-25dd-4ac5-859a-692a6b6caef7"),
                             Description = "This is country number 6",
                             Name = "Country 6"
                         });

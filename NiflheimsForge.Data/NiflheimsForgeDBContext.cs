@@ -9,6 +9,7 @@ using NiflheimsForge.Core.Models;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace NiflheimsForge.Data;
 
@@ -16,10 +17,9 @@ public class NiflheimsForgeDBContext : DbContext
 {
     public DbSet<Country> Countries { get; set; }
     private readonly string _connectionString;
-
-    public NiflheimsForgeDBContext(string connectionString)
+    public NiflheimsForgeDBContext(IConfiguration configuration)
     {
-        _connectionString = connectionString;
+        _connectionString = configuration?.GetConnectionString("DefaultConnection") ?? throw new ArgumentNullException(nameof(configuration));
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder dbContextOptionsBuilder) => dbContextOptionsBuilder.UseSqlServer(_connectionString);

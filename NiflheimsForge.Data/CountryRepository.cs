@@ -14,14 +14,14 @@ namespace NiflheimsForge.Repository;
 
 public class CountryRepository : ICountryRepository
 {
-    private readonly string _connectionString;
+    private readonly IConfiguration _configuration;
     public CountryRepository(IConfiguration configuration)
     {
-        _connectionString = configuration?.GetConnectionString("DefaultConnection") ?? throw new ArgumentNullException(nameof(configuration));
+        _configuration = configuration;
     }
     public async Task<List<CountryDTO>> GetAllCountries()
     {
-        using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext(_connectionString))
+        using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext(_configuration))
         {
             List<CountryDTO> countries = await db.Countries
                 .Select(country => new CountryDTO
@@ -38,7 +38,7 @@ public class CountryRepository : ICountryRepository
 
     public async Task<Country> GetCountryByIdAsync(Guid countryId)
     {
-        using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext(_connectionString))
+        using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext(_configuration))
         {
             return await db.Countries.FirstOrDefaultAsync(country => country.Id == countryId);
         }
@@ -46,7 +46,7 @@ public class CountryRepository : ICountryRepository
 
     public async Task<bool> CreateCountryAsync(Country countryToCreate)
     {
-        using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext(_connectionString))
+        using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext(_configuration))
         {
             try
             {
@@ -62,7 +62,7 @@ public class CountryRepository : ICountryRepository
 
     public async Task<bool> UpdateCountryAsync(Country countryToUpdate)
     {
-        using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext(_connectionString))
+        using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext(_configuration))
         {
             try
             {
@@ -78,7 +78,7 @@ public class CountryRepository : ICountryRepository
 
     public async Task<bool> DeleteCountryAsync(Guid countryId)
     {
-        using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext(_connectionString))
+        using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext(_configuration))
         {
             try
             {

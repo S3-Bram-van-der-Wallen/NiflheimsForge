@@ -1,5 +1,6 @@
 using NiflheimsForge.Core.Interfaces;
 using NiflheimsForge.Core.Services;
+using NiflheimsForge.Data;
 using NiflheimsForge.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
