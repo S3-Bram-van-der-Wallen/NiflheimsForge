@@ -17,7 +17,7 @@ public class NiflheimsForgeDBContext : DbContext
 {
     public DbSet<Country> Countries { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder dbContextOptionsBuilder) => dbContextOptionsBuilder.UseSqlServer("Server=localhost;Database=NiflheimsForge;Integrated Security=True;Encrypt=True;TrustServerCertificate=True");
+    protected override void OnConfiguring(DbContextOptionsBuilder dbContextOptionsBuilder) => dbContextOptionsBuilder.UseSqlServer("Server=tcp:niflheims-forge-server.database.windows.net,1433;Initial Catalog=NiflheimsForgeDB;Persist Security Info=False;User ID=NiflheimsForgeAdmin;Password=Kv4&9^UMXptXpW;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
