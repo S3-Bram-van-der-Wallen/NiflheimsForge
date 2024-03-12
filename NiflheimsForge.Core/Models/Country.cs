@@ -10,7 +10,7 @@ namespace NiflheimsForge.Core.Models;
 public class Country
 {
     [Key]
-    public Guid Id { get; set; }
+    public Guid? Id { get; set; }
 
     [Required]
     [MaxLength(100)]

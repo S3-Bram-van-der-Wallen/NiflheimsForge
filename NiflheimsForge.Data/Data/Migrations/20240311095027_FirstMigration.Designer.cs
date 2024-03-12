@@ -12,7 +12,7 @@ using NiflheimsForge.Data;
 namespace NiflheimsForge.Data.Data.Migrations
 {
     [DbContext(typeof(NiflheimsForgeDBContext))]
-    [Migration("20240311090211_FirstMigration")]
+    [Migration("20240311095027_FirstMigration")]
     partial class FirstMigration
     {
         /// <inheritdoc />
@@ -48,37 +48,37 @@ namespace NiflheimsForge.Data.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("451a6442-8251-4390-8cbf-e983dea9dbff"),
+                            Id = new Guid("13d87701-dc16-4f80-9a41-1aed886b0ed3"),
                             Description = "This is country number 1",
                             Name = "Country 1"
                         },
                         new
                         {
-                            Id = new Guid("964dbef7-5792-481d-8c52-73f5426230a5"),
+                            Id = new Guid("9db714ca-de11-4052-9604-641423353586"),
                             Description = "This is country number 2",
                             Name = "Country 2"
                         },
                         new
                         {
-                            Id = new Guid("a2985416-d868-4c48-a5c3-5260d859295f"),
+                            Id = new Guid("39072d2b-1b3d-4d8e-bee4-2279f12e6667"),
                             Description = "This is country number 3",
                             Name = "Country 3"
                         },
                         new
                         {
-                            Id = new Guid("7da807f5-8dfa-4ed2-88ff-b5342496a60d"),
+                            Id = new Guid("9cc5363a-f913-4954-b5bd-b2a4b73dab64"),
                             Description = "This is country number 4",
                             Name = "Country 4"
                         },
                         new
                         {
-                            Id = new Guid("a8a94071-ea2d-4efc-98af-04458fd15e86"),
+                            Id = new Guid("3a1fb89e-54cd-4a7f-b426-3a5a74709eeb"),
                             Description = "This is country number 5",
                             Name = "Country 5"
                         },
                         new
                         {
-                            Id = new Guid("51ddd4bc-8ee1-41e2-a067-8f285cebb291"),
+                            Id = new Guid("77e1b3e4-5658-4c5b-94ed-9035f2bdd7a8"),
                             Description = "This is country number 6",
                             Name = "Country 6"
                         });

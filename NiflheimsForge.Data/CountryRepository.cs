@@ -14,7 +14,6 @@ namespace NiflheimsForge.Repository;
 
 public class CountryRepository : ICountryRepository
 {
-    private readonly IConfiguration _configuration;
     public async Task<List<CountryDTO>> GetAllCountries()
     {
         using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext())

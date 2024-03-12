@@ -23,7 +23,7 @@ public class CountryService
         List<CountryDTO> countryDTOs = await _countryRepository.GetAllCountries();
         List<Country> countries = countryDTOs.Select(countryDTO => new Country
         {
-            Id = countryDTO.Id,
+            Id = countryDTO.Id ?? Guid.Empty,
             Name = countryDTO.Name,
             Description = countryDTO.Description
         }).ToList();
