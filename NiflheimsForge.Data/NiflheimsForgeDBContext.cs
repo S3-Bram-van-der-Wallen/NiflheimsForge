@@ -1,13 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NiflheimsForge.Core.Models;
+using NiflheimsForge.Core.DTO;
 using System;
 
 namespace NiflheimsForge.Data;
 
 public class NiflheimsForgeDBContext : DbContext
 {
-    public DbSet<Country> Countries { get; set; }
+    public DbSet<CountryDTO> Countries { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -25,11 +26,11 @@ public class NiflheimsForgeDBContext : DbContext
         for (int i = 1; i <= 6; i++)
         {
             countriesToSeed[i - 1] = new Country
-            {
-                Id = Guid.NewGuid(),
-                Name = $"Country {i}",
-                Description = $"This is country number {i}"
-            };
+            (
+                Guid.NewGuid(),
+                $"Country {i}",
+                $"This is country number {i}"
+            );
         }
         modelBuilder.Entity<Country>().HasData(countriesToSeed);
     }

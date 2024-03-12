@@ -20,18 +20,18 @@ public class CountryRepository : ICountryRepository
         {
             List<CountryDTO> countries = await db.Countries
                 .Select(country => new CountryDTO
-                {
-                    Id = country.Id,
-                    Name = country.Name,
-                    Description = country.Description,
-                })
+                (
+                    country.Id,
+                    country.Name,
+                    country.Description
+                ))
                 .ToListAsync();
 
             return countries;
         }
     }
 
-    public async Task<Country> GetCountryByIdAsync(Guid countryId)
+    public async Task<CountryDTO> GetCountryBy(Guid countryId)
     {
         using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext())
         {
@@ -39,7 +39,7 @@ public class CountryRepository : ICountryRepository
         }
     }
 
-    public async Task<bool> CreateCountryAsync(Country countryToCreate)
+    public async Task<bool> CreateCountry(CountryDTO countryToCreate)
     {
         using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext())
         {
@@ -55,7 +55,7 @@ public class CountryRepository : ICountryRepository
         }
     }
 
-    public async Task<bool> UpdateCountryAsync(Country countryToUpdate)
+    public async Task<bool> UpdateCountryAsync(CountryDTO countryToUpdate)
     {
         using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext())
         {
@@ -71,13 +71,13 @@ public class CountryRepository : ICountryRepository
         }
     }
 
-    public async Task<bool> DeleteCountryAsync(Guid countryId)
+    public async Task<bool> DeleteCountry(Guid countryId)
     {
         using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext())
         {
             try
             {
-                Country countryToDelete = await GetCountryByIdAsync(countryId);
+                CountryDTO countryToDelete = await GetCountryBy(countryId);
                 if (countryToDelete == null)
                 {
                     return false; // Country not found

@@ -21,13 +21,32 @@ public class CountryService
     public async Task<List<Country>> GetAllCountries()
     {
         List<CountryDTO> countryDTOs = await _countryRepository.GetAllCountries();
-        List<Country> countries = countryDTOs.Select(countryDTO => new Country
-        {
-            Id = countryDTO.Id ?? Guid.Empty,
-            Name = countryDTO.Name,
-            Description = countryDTO.Description
-        }).ToList();
+        return countryDTOs.Select(countryDTO => new Country
+        (
+            countryDTO.Id ?? Guid.Empty,
+            countryDTO.Name,
+            countryDTO.Description
+        )).ToList();
+    }
 
-        return countries;
+    public async Task<Country> GetCountryBy(Guid countryId)
+    {
+        CountryDTO countryDTO = await _countryRepository.GetCountryBy(countryId);
+        return new Country(
+            countryDTO.Name,
+            countryDTO.Description
+            );
+    }
+
+    public async Task<bool> CreateCountry(Country countryToCreate)
+    {
+        return await _countryRepository.CreateCountry(new CountryDTO(
+            countryToCreate.Name,
+            countryToCreate.Description));
+    }
+
+    public async Task<bool> DeleteCountry(Guid id)
+    {
+        return await _countryRepository.DeleteCountry(id);
     }
 }

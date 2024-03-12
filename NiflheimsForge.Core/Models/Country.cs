@@ -19,4 +19,15 @@ public class Country
     [Required]
     [MaxLength(100000)]
     public string Description { get; set; } = string.Empty;
+
+    public Country(Guid? id, string name, string description)
+    {
+        Id = id;
+        Name = name;
+        Description = description;
+    }
+
+    public Country(string name, string description) : this(null, name, description)
+    {
+    }
 }

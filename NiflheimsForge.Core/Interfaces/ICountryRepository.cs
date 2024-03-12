@@ -10,5 +10,8 @@ namespace NiflheimsForge.Core.Interfaces
     public interface ICountryRepository
     {
         Task<List<CountryDTO>> GetAllCountries();
+        Task<CountryDTO> GetCountryBy(Guid countryId);
+        Task<bool> CreateCountry(CountryDTO countryToCreate);
+        Task<bool> DeleteCountry(Guid id);
     }
 }
