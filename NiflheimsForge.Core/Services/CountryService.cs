@@ -1,6 +1,5 @@
 ﻿using NiflheimsForge.Core.Interfaces;
 using NiflheimsForge.Core.Models;
-using NiflheimsForge.Core.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +19,7 @@ public class CountryService
 
     public async Task<List<Country>> GetAllCountries()
     {
-        List<CountryDTO> countryDTOs = await _countryRepository.GetAllCountries();
+        List<Country> countryDTOs = await _countryRepository.GetAllCountries();
         return countryDTOs.Select(countryDTO => new Country
         (
             countryDTO.Id ?? Guid.Empty,
@@ -31,7 +30,7 @@ public class CountryService
 
     public async Task<Country> GetCountryBy(Guid countryId)
     {
-        CountryDTO countryDTO = await _countryRepository.GetCountryBy(countryId);
+        Country countryDTO = await _countryRepository.GetCountryBy(countryId);
         return new Country(
             countryDTO.Name,
             countryDTO.Description
@@ -40,7 +39,7 @@ public class CountryService
 
     public async Task<bool> CreateCountry(Country countryToCreate)
     {
-        return await _countryRepository.CreateCountry(new CountryDTO(
+        return await _countryRepository.CreateCountry(new Country(
             countryToCreate.Name,
             countryToCreate.Description));
     }

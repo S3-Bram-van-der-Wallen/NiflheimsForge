@@ -1,4 +1,4 @@
-﻿using NiflheimsForge.Core.DTO;
+﻿using NiflheimsForge.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +9,9 @@ namespace NiflheimsForge.Core.Interfaces
 {
     public interface ICountryRepository
     {
-        Task<List<CountryDTO>> GetAllCountries();
-        Task<CountryDTO> GetCountryBy(Guid countryId);
-        Task<bool> CreateCountry(CountryDTO countryToCreate);
+        Task<List<Country>> GetAllCountries();
+        Task<Country> GetCountryBy(Guid countryId);
+        Task<bool> CreateCountry(Country countryToCreate);
         Task<bool> DeleteCountry(Guid id);
     }
 }

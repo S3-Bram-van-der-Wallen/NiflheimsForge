@@ -1,14 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NiflheimsForge.Core.Models;
-using NiflheimsForge.Core.DTO;
 using System;
 
 namespace NiflheimsForge.Data;
 
 public class NiflheimsForgeDBContext : DbContext
 {
-    public DbSet<CountryDTO> Countries { get; set; }
+    public DbSet<Country> Countries { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

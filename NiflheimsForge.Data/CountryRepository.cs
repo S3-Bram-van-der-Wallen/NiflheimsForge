@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using NiflheimsForge.Core.DTO;
 using NiflheimsForge.Core.Interfaces;
 using NiflheimsForge.Core.Models;
 using NiflheimsForge.Data;
@@ -14,12 +13,12 @@ namespace NiflheimsForge.Repository;
 
 public class CountryRepository : ICountryRepository
 {
-    public async Task<List<CountryDTO>> GetAllCountries()
+    public async Task<List<Country>> GetAllCountries()
     {
         using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext())
         {
-            List<CountryDTO> countries = await db.Countries
-                .Select(country => new CountryDTO
+            List<Country> countries = await db.Countries
+                .Select(country => new Country
                 (
                     country.Id,
                     country.Name,
@@ -31,15 +30,16 @@ public class CountryRepository : ICountryRepository
         }
     }
 
-    public async Task<CountryDTO> GetCountryBy(Guid countryId)
+    public async Task<Country> GetCountryBy(Guid countryId)
     {
         using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext())
         {
-            return await db.Countries.FirstOrDefaultAsync(country => country.Id == countryId);
+            Country country = await db.Countries.FirstOrDefaultAsync(country => country.Id == countryId);
+            return country;
         }
     }
 
-    public async Task<bool> CreateCountry(CountryDTO countryToCreate)
+    public async Task<bool> CreateCountry(Country countryToCreate)
     {
         using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext())
         {
@@ -55,7 +55,7 @@ public class CountryRepository : ICountryRepository
         }
     }
 
-    public async Task<bool> UpdateCountryAsync(CountryDTO countryToUpdate)
+    public async Task<bool> UpdateCountryAsync(Country countryToUpdate)
     {
         using (NiflheimsForgeDBContext db = new NiflheimsForgeDBContext())
         {
@@ -77,7 +77,7 @@ public class CountryRepository : ICountryRepository
         {
             try
             {
-                CountryDTO countryToDelete = await GetCountryBy(countryId);
+                Country countryToDelete = await GetCountryBy(countryId);
                 if (countryToDelete == null)
                 {
                     return false; // Country not found

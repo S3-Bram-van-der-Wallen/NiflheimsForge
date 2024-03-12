@@ -2,7 +2,6 @@
 using System.Diagnostics.Metrics;
 using NiflheimsForge.Core.Models;
 using NiflheimsForge.Core.Services;
-using NiflheimsForge.Core.DTO;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace NiflheimsForge.Controllers;
@@ -31,11 +30,11 @@ public class CountryController
     }
 
     [HttpPost("countries")]
-    public async Task<bool> CreateCountry(string name, string description)
+    public async Task<bool> CreateCountry(Country country)
     {
         return await _countryService.CreateCountry(new Country(
-            name,
-            description));
+            country.Name,
+            country.Description));
     }
 
     [HttpDelete("countries/{countryId}")]
