@@ -1,17 +1,17 @@
 import React, { useState } from "react";
+import Constants from "./utilities/Constants";
 
 export default function App() {
   const [countries, setCountries] = useState([]);
 
   function getCountries() {
-    const url = 'http://localhost:5031/Country';
+    const url = Constants.API_URL_GET_ALL_COUNTRIES;
 
     fetch(url, {
       method: 'GET'
     })
       .then(response => response.json())
       .then(countriesFromServer => {
-        console.log(countriesFromServer);
         setCountries(countriesFromServer);
       })
       .catch((error) => {

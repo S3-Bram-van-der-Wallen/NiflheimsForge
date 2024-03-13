@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace NiflheimsForge.Core.Models;
 
 public class Country
 {
-    [Key]
     public Guid? Id { get; set; }
 
     [Required]
@@ -20,8 +14,5 @@ public class Country
     [MaxLength(100000)]
     public string Description { get; set; } = string.Empty;
 
-    public Country()
-    {
-
-    }
+    public ICollection<City> Cities { get; } = new List<City>();
 }
