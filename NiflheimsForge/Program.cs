@@ -1,4 +1,6 @@
 using NiflheimsForge.Data;
+using Microsoft.EntityFrameworkCore;
+using NiflheimsForge.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,8 +23,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<NiflheimsForgeDBContext>();
-builder.Configuration.AddJsonFile("appsettings.json");
+builder.Services.AddDbContext<NiflheimsForgeDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
