@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import Constants from "./utilities/Constants";
+import CountryCreateForm from "./components/CountryCreateForm";
 
 export default function App() {
   const [countries, setCountries] = useState([]);
+  const [showingCreateNewCountryForm, setShowingCreateNewCountryForm] = useState(false);
 
   function getCountries() {
     const url = Constants.API_URL_GET_ALL_COUNTRIES;
@@ -24,16 +26,20 @@ export default function App() {
     <div className="container">
       <div className="row min-vh-100">
         <div className="col d-flex flex-column justify-content-center align-items-center">
-          <div>
-            <h1>Countries</h1>
+          {showingCreateNewCountryForm === false && (
+            <div>
+              <h1>Countries</h1>
 
-            <div className="mt-5">
-              <button onClick={getCountries} className="btn btn-dark btn-lg w-100">Get Countries from server</button>
-              <button onClick={() => { }} className="btn btn-secondary btn-lg w-100 mt-4">Create new Country</button>
+              <div className="mt-5">
+                <button onClick={getCountries} className="btn btn-dark btn-lg w-100">Get Countries from server</button>
+                <button onClick={() => setShowingCreateNewCountryForm(true)} className="btn btn-secondary btn-lg w-100 mt-4">Create new Country</button>
+              </div>
             </div>
-          </div>
+          )}
 
-          {countries.length > 0 && renderCountriesTable()}
+          {(countries.length > 0 && showingCreateNewCountryForm === false) && renderCountriesTable()}
+
+          {showingCreateNewCountryForm && <CountryCreateForm onCountryCreated={onCountryCreated} />}
         </div>
       </div>
     </div>
@@ -67,6 +73,18 @@ export default function App() {
         </table>
         <button onClick={() => setCountries([])} className="btn btn-dark btn-lg w-100">Empty Countries Array</button>
       </div>
-    )
+    );
+  }
+
+  function onCountryCreated(createdCountry) {
+    setShowingCreateNewCountryForm(false);
+
+    if (createdCountry === null) {
+      return;
+    }
+
+    alert(`Crountry successfully created. After clicking OK, your new post tilted "${createdCountry.name} will show up in the table below."`);
+
+    getCountries();
   }
 }
