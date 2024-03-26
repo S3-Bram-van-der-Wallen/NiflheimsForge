@@ -24,6 +24,6 @@ public class NiflheimsForgeDBContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer("Server=localhost;Database=NiflheimsForge;Integrated Security=True;Encrypt=True;TrustServerCertificate=True");
+        optionsBuilder.UseSqlServer("Server=localhost;Database=NiflheimsForgeDB;Integrated Security=True;Encrypt=True;TrustServerCertificate=True");
     }
 }
