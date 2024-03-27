@@ -24,6 +24,23 @@ export default function App() {
       });
   }
 
+  function deleteCountry(id) {
+    const url = Constants.API_URL_DELETE_COUNTRY_BY_ID;
+
+    fetch(`${url}/${id}`, {
+      method: 'DELETE'
+    })
+      .then(response => response.json())
+      .then(responseFromServer => {
+        console.log(responseFromServer);
+        onCountryDeleted(id);
+      })
+      .catch((error) => {
+        console.log(error);
+        alert(error);
+      });
+  }
+
   return (
     <div className="container">
       <div className="row min-vh-100">
@@ -69,7 +86,7 @@ export default function App() {
                 <td>{country.description}</td>
                 <td>
                   <button onClick={() => setCountryCurrentlyBeingUpdated(country)}className="btn btn-dark btn-lg mx-3 my-3">Update</button>
-                  <button className="btn btn-secondary btn-lg">Delete</button>
+                  <button onClick={() => { if(window.confirm(`Are you sure you want to delete "${country.name}"?`)) deleteCountry(country.id) }} className="btn btn-secondary btn-lg">Delete</button>
                 </td>
               </tr>
             ))}
@@ -91,7 +108,7 @@ export default function App() {
 
     getCountries();
   }
-
+  
   function onCountryUpdated(updatedCountry){
     setCountryCurrentlyBeingUpdated(null);
 
@@ -114,5 +131,23 @@ export default function App() {
     setCountries(countriesCopy);
 
     alert(`Country successfully updated. After clicking OK, look for the post with the title "${updatedCountry.name}" in the table below to see updates.`)
+  }
+
+  function onCountryDeleted(deletedCountryId){
+    let countriesCopy = [...countries];
+
+    const index = countriesCopy.findIndex((countriesCopyCountry, currentIndex) => {
+      if (countriesCopyCountry.id === deletedCountryId){
+        return true;
+      }
+    });
+
+    if (index !== -1){
+      countriesCopy.splice(index, 1);
+    }
+
+    setCountries(countriesCopy);
+
+    alert('Country successfully deleted, after clicking OK, look at the table below to see the post disapear')
   }
 }
