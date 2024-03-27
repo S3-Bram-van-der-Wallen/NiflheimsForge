@@ -45,9 +45,10 @@ namespace NiflheimsForge.Controllers
         // PUT: api/countries/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("countries/{id}")]
-        public async Task<IActionResult> UpdateCountry(Guid? id, Country country)
+        public async Task<IActionResult> UpdateCountry(string id, Country country)
         {
-            if (id != country.Id)
+            Guid guid = Guid.Parse(id);
+            if (guid != country.Id)
             {
                 return BadRequest();
             }
@@ -60,7 +61,7 @@ namespace NiflheimsForge.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CountryExists(id))
+                if (!CountryExists(guid))
                 {
                     return NotFound();
                 }

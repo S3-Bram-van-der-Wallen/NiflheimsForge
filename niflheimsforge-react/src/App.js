@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import Constants from "./utilities/Constants";
 import CountryCreateForm from "./components/CountryCreateForm";
+import CountryUpdateForm from "./components/CountryUpdateForm";
 
 export default function App() {
   const [countries, setCountries] = useState([]);
   const [showingCreateNewCountryForm, setShowingCreateNewCountryForm] = useState(false);
+  const [countryCurrentlyBeingUpdated, setCountryCurrentlyBeingUpdated] = useState(null);
 
   function getCountries() {
     const url = Constants.API_URL_GET_ALL_COUNTRIES;
@@ -26,7 +28,7 @@ export default function App() {
     <div className="container">
       <div className="row min-vh-100">
         <div className="col d-flex flex-column justify-content-center align-items-center">
-          {showingCreateNewCountryForm === false && (
+          {(showingCreateNewCountryForm === false && countryCurrentlyBeingUpdated === null) && (
             <div>
               <h1>Countries</h1>
 
@@ -37,9 +39,11 @@ export default function App() {
             </div>
           )}
 
-          {(countries.length > 0 && showingCreateNewCountryForm === false) && renderCountriesTable()}
+          {(countries.length > 0 && showingCreateNewCountryForm === false && countryCurrentlyBeingUpdated === null) && renderCountriesTable()}
 
           {showingCreateNewCountryForm && <CountryCreateForm onCountryCreated={onCountryCreated} />}
+
+          {countryCurrentlyBeingUpdated !== null && <CountryUpdateForm country={countryCurrentlyBeingUpdated} onCountryUpdated={onCountryUpdated} />}
         </div>
       </div>
     </div>
@@ -64,7 +68,7 @@ export default function App() {
                 <td>{country.name}</td>
                 <td>{country.description}</td>
                 <td>
-                  <button className="btn btn-dark btn-lg mx-3 my-3">Update</button>
+                  <button onClick={() => setCountryCurrentlyBeingUpdated(country)}className="btn btn-dark btn-lg mx-3 my-3">Update</button>
                   <button className="btn btn-secondary btn-lg">Delete</button>
                 </td>
               </tr>
@@ -86,5 +90,29 @@ export default function App() {
     alert(`Crountry successfully created. After clicking OK, your new post tilted "${createdCountry.name} will show up in the table below."`);
 
     getCountries();
+  }
+
+  function onCountryUpdated(updatedCountry){
+    setCountryCurrentlyBeingUpdated(null);
+
+    if (updatedCountry === null){
+      return;
+    }
+
+    let countriesCopy = [...countries];
+
+    const index = countriesCopy.findIndex((countriesCopyCountry, currentIndex) => {
+      if (countriesCopyCountry.countryId === updatedCountry.countryId){
+        return true;
+      }
+    });
+
+    if (index !== -1){
+      countriesCopy[index] = updatedCountry;
+    }
+
+    setCountries(countriesCopy);
+
+    alert(`Country successfully updated. After clicking OK, look for the post with the title "${updatedCountry.name}" in the table below to see updates.`)
   }
 }
