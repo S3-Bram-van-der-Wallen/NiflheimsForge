@@ -71,7 +71,6 @@ export default function App() {
         <table className="table table-bordered border-dark">
           <thead>
             <tr>
-              <th scope="col">CountryId (PK)</th>
               <th scope="col">Name</th>
               <th scope="col">Description</th>
               <th scope="col">CRUD Operations</th>
@@ -80,12 +79,15 @@ export default function App() {
           <tbody>
             {countries.map((country) => (
               <tr key={country.id}>
-                <th scope="row">{country.id}</th>
-                <td>{country.name}</td>
+                <td>
+                  <span style={{ cursor: 'pointer', fontWeight: 'bold' }}onClick={() => setCountryCurrentlyBeingUpdated(country)}>
+                    {country.name}
+                  </span>
+                </td>
                 <td>{country.description}</td>
                 <td>
-                  <button onClick={() => setCountryCurrentlyBeingUpdated(country)}className="btn btn-dark btn-lg mx-3 my-3">Update</button>
-                  <button onClick={() => { if(window.confirm(`Are you sure you want to delete "${country.name}"?`)) deleteCountry(country.id) }} className="btn btn-secondary btn-lg">Delete</button>
+                  <button onClick={() => setCountryCurrentlyBeingUpdated(country)} className="btn btn-dark btn-lg mx-3 my-3">Update</button>
+                  <button onClick={() => { if (window.confirm(`Are you sure you want to delete "${country.name}"?`)) deleteCountry(country.id) }} className="btn btn-secondary btn-lg">Delete</button>
                 </td>
               </tr>
             ))}
@@ -107,23 +109,23 @@ export default function App() {
 
     getCountries();
   }
-  
-  function onCountryUpdated(updatedCountry){
+
+  function onCountryUpdated(updatedCountry) {
     setCountryCurrentlyBeingUpdated(null);
 
-    if (updatedCountry === null){
+    if (updatedCountry === null) {
       return;
     }
 
     let countriesCopy = [...countries];
 
     const index = countriesCopy.findIndex((countriesCopyCountry, currentIndex) => {
-      if (countriesCopyCountry.countryId === updatedCountry.countryId){
+      if (countriesCopyCountry.countryId === updatedCountry.countryId) {
         return true;
       }
     });
 
-    if (index !== -1){
+    if (index !== -1) {
       countriesCopy[index] = updatedCountry;
     }
 
@@ -132,21 +134,11 @@ export default function App() {
     alert(`Country successfully updated. After clicking OK, look for the post with the title "${updatedCountry.name}" in the table below to see updates.`)
   }
 
-  function onCountryDeleted(deletedCountryId){
-    let countriesCopy = [...countries];
+  function onCountryDeleted(deletedCountryId) {
+    const deletedCountry = countries.filter(country => country.id !== deletedCountryId);
 
-    const index = countriesCopy.findIndex((countriesCopyCountry, currentIndex) => {
-      if (countriesCopyCountry.id === deletedCountryId){
-        return true;
-      }
-    });
+    setCountries(deletedCountry);
 
-    if (index !== -1){
-      countriesCopy.splice(index, 1);
-    }
-
-    setCountries(countriesCopy);
-
-    alert('Country successfully deleted, after clicking OK, look at the table below to see the post disapear');
+    alert('Country successfully deleted. The table has been updated.');
   }
 }
