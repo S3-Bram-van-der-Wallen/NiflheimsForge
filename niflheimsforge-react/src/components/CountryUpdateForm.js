@@ -34,7 +34,6 @@ export default function CountryUpdateForm(props) {
             },
             body: JSON.stringify(countryToUpdate)
         })
-            .then(response => response.json())
             .then(responseFromServer => {
                 console.log(responseFromServer);
             })

@@ -30,7 +30,6 @@ export default function App() {
     fetch(`${url}/${id}`, {
       method: 'DELETE'
     })
-      .then(response => response.json())
       .then(responseFromServer => {
         console.log(responseFromServer);
         onCountryDeleted(id);
