@@ -6,104 +6,126 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NiflheimsForge.Core.Models;
+using NiflheimsForge.Core.DTOs;
 using NiflheimsForge.Data;
 
-namespace NiflheimsForge.Controllers
+namespace NiflheimsForge.Controllers;
+
+[Route("api")]
+[ApiController]
+public class CountryController : ControllerBase
 {
-    [Route("api")]
-    [ApiController]
-    public class CountryController : ControllerBase
+    private readonly NiflheimsForgeDBContext _context;
+
+    public CountryController(NiflheimsForgeDBContext context)
     {
-        private readonly NiflheimsForgeDBContext _context;
+        _context = context;
+    }
 
-        public CountryController(NiflheimsForgeDBContext context)
+    // GET: api/countries
+    [HttpGet("countries")]
+    public async Task<ActionResult<IEnumerable<CountryDTO>>> GetCountries()
+    {
+        return await _context.Countries.Select(c => new CountryDTO
+        (
+        c.Id,
+        c.Name,
+        c.Description
+        )).ToListAsync();
+    }
+
+    // GET: api/countries/5
+    [HttpGet("countries/{id}")]
+    public async Task<ActionResult<CountryDTO>> GetCountryBy(Guid? id)
+    {
+        var country = await _context.Countries.FindAsync(id);   
+
+        if (country == null)
         {
-            _context = context;
+            return NotFound();
         }
 
-        // GET: api/countries
-        [HttpGet("countries")]
-        public async Task<ActionResult<IEnumerable<Country>>> GetCountries()
+        var countryDTO = new CountryDTO(
+            country.Id,
+            country.Name,
+            country.Description);
+
+        return countryDTO;
+    }
+
+    // PUT: api/countries/5
+    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    [HttpPut("countries/{id}")]
+    public async Task<IActionResult> UpdateCountry(Guid id, CountryDTO countryDTO)
+    {
+        if (id != countryDTO.Id)
         {
-            return await _context.Countries.ToListAsync();
+            return BadRequest();
         }
 
-        // GET: api/countries/5
-        [HttpGet("countries/{id}")]
-        public async Task<ActionResult<Country>> GetCountryBy(Guid? id)
+        var country = new Country
         {
-            Country country = await _context.Countries.FindAsync(id);
+            Id = countryDTO.Id,
+            Name = countryDTO.Name,
+            Description = countryDTO.Description
+        };
 
-            if (country == null)
+        _context.Entry(country).State = EntityState.Modified;
+
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!CountryExists(id))
             {
                 return NotFound();
             }
-
-            return country;
-        }
-
-        // PUT: api/countries/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("countries/{id}")]
-        public async Task<IActionResult> UpdateCountry(string id, Country country)
-        {
-            Guid guid = Guid.Parse(id);
-            if (guid != country.Id)
+            else
             {
-                return BadRequest();
+                throw;
             }
-
-            _context.Entry(country).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CountryExists(guid))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
         }
 
-        // POST: api/countries
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("countries")]
-        public async Task<ActionResult<Country>> CreateCountry(Country country)
+        return NoContent();
+    }
+
+    // POST: api/countries
+    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    [HttpPost("countries")]
+    public async Task<ActionResult<CreateCountryDTO>> CreateCountry(CreateCountryDTO countryDTO)
+    {
+        var country = new Country
         {
-            _context.Countries.Add(country);
-            await _context.SaveChangesAsync();
+            Name = countryDTO.Name,
+            Description = countryDTO.Description
+        };
 
-            return CreatedAtAction("GetCountry", new { id = country.Id }, country);
-        }
+        _context.Countries.Add(country);
+        await _context.SaveChangesAsync();
 
-        // DELETE: api/countries/5
-        [HttpDelete("countries/{id}")]
-        public async Task<IActionResult> DeleteCountry(Guid? id)
+        return CreatedAtAction("GetCountryBy", new { id = country.Id }, country);
+    }
+
+    // DELETE: api/countries/5
+    [HttpDelete("countries/{id}")]
+    public async Task<IActionResult> DeleteCountry(Guid? id)
+    {
+        var country = await _context.Countries.FindAsync(id);
+        if (country == null)
         {
-            Country country = await _context.Countries.FindAsync(id);
-            if (country == null)
-            {
-                return NotFound();
-            }
-
-            _context.Countries.Remove(country);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return NotFound();
         }
 
-        private bool CountryExists(Guid? id)
-        {
-            return _context.Countries.Any(e => e.Id == id);
-        }
+        _context.Countries.Remove(country);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    private bool CountryExists(Guid? id)
+    {
+        return _context.Countries.Any(e => e.Id == id);
     }
 }

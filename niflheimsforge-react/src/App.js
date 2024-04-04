@@ -148,6 +148,6 @@ export default function App() {
 
     setCountries(countriesCopy);
 
-    alert('Country successfully deleted, after clicking OK, look at the table below to see the post disapear')
+    alert('Country successfully deleted, after clicking OK, look at the table below to see the post disapear');
   }
 }
