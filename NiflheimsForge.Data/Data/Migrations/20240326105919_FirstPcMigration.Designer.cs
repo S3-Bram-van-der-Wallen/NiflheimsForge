@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NiflheimsForge.Data;
 
@@ -11,9 +12,11 @@ using NiflheimsForge.Data;
 namespace NiflheimsForge.Data.Data.Migrations
 {
     [DbContext(typeof(NiflheimsForgeDBContext))]
-    partial class NiflheimsForgeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240326105919_FirstPcMigration")]
+    partial class FirstPcMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

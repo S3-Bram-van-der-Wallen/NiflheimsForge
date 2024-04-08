@@ -8,29 +8,31 @@ namespace NiflheimsForge.Data;
 public class NiflheimsForgeDBContext : DbContext
 {
     public DbSet<Country> Countries { get; set; }
+    public DbSet<City> Cities { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    private readonly IConfiguration _configuration;
+
+    public NiflheimsForgeDBContext(DbContextOptions<NiflheimsForgeDBContext> options, IConfiguration configuration)
+        : base(options)
     {
-        optionsBuilder.UseSqlServer("Server=localhost;Database=NiflheimsForge;Integrated Security=True;Encrypt=True;TrustServerCertificate=True");
+        _configuration = configuration;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Country>()
-            .Property(c => c.Id)
-            .ValueGeneratedOnAdd();
+        modelBuilder.Entity<City>()
+            .HasOne(c => c.Country)
+            .WithMany(c => c.Cities)
+            .HasForeignKey(c => c.CountryId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Restrict);
 
-        Country[] countriesToSeed = new Country[6];
 
-        for (int i = 1; i <= 6; i++)
-        {
-            countriesToSeed[i - 1] = new Country
-            {
-                Id = Guid.NewGuid(),
-                Name = $"Country {i}",
-                Description = $"This is country number {i}"
-            };
-        }
-        modelBuilder.Entity<Country>().HasData(countriesToSeed);
+    base.OnModelCreating(modelBuilder);
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlServer("Server=localhost;Database=NiflheimsForge;Integrated Security=True;Encrypt=True;TrustServerCertificate=True");
     }
 }

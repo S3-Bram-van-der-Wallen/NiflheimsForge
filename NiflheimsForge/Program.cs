@@ -1,7 +1,6 @@
-using NiflheimsForge.Core.Interfaces;
-using NiflheimsForge.Core.Services;
 using NiflheimsForge.Data;
-using NiflheimsForge.Repository;
+using Microsoft.EntityFrameworkCore;
+using NiflheimsForge.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,9 +23,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<ICountryRepository, CountryRepository>();
-builder.Services.AddScoped<CountryService>();
-builder.Configuration.AddJsonFile("appsettings.json");
+builder.Services.AddDbContext<NiflheimsForgeDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionLT")));
 
 var app = builder.Build();
 
