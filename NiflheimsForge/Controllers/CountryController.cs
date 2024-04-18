@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NiflheimsForge.Core.Models;
 using NiflheimsForge.Core.DTOs;
@@ -24,7 +19,7 @@ public class CountryController : ControllerBase
 
     // GET: api/countries
     [HttpGet("countries")]
-    public async Task<ActionResult<IEnumerable<CountryDTO>>> GetCountries()
+    public async Task<ActionResult<IEnumerable<CountryDTO>>> GetCountriesAsync()
     {
         return await _context.Countries.Select(c => new CountryDTO
         (
@@ -91,10 +86,8 @@ public class CountryController : ControllerBase
         return NoContent();
     }
 
-    // POST: api/countries
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost("countries")]
-    public async Task<ActionResult<CreateCountryDTO>> CreateCountry(CreateCountryDTO countryDTO)
+    public async Task<ActionResult<CreateCountryDTO>> CreateCountryAsync(CreateCountryDTO countryDTO)
     {
         var country = new Country
         {
