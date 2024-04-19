@@ -18,6 +18,11 @@ public class NiflheimsForgeDBContext : DbContext
         _configuration = configuration;
     }
 
+    public NiflheimsForgeDBContext(DbContextOptions<NiflheimsForgeDBContext> options)
+        : base(options)
+    {
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<City>()

@@ -18,7 +18,7 @@ public class CountryService
     {
         _context = context;
     }
-    public async Task<List<CountryDTO>> GetCountries()
+    public async Task<IEnumerable<CountryDTO>> GetCountries()
     {
         return await _context.Countries
             .Select(c => new CountryDTO

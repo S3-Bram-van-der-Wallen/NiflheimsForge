@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using NiflheimsForge.Core.Models;
 using NiflheimsForge.Core.DTOs;
 using NiflheimsForge.Data;
+using NiflheimsForge.Data.Repositories;
 
 namespace NiflheimsForge.Controllers;
 
@@ -11,22 +12,20 @@ namespace NiflheimsForge.Controllers;
 public class CountryController : ControllerBase
 {
     private readonly NiflheimsForgeDBContext _context;
+    private readonly CountryRepository _countryRepository;
 
-    public CountryController(NiflheimsForgeDBContext context)
+    public CountryController(NiflheimsForgeDBContext context, CountryRepository countryRepository)
     {
         _context = context;
+        _countryRepository = countryRepository;
     }
 
     // GET: api/countries
     [HttpGet("countries")]
     public async Task<ActionResult<IEnumerable<CountryDTO>>> GetCountriesAsync()
     {
-        return await _context.Countries.Select(c => new CountryDTO
-        (
-        c.Id,
-        c.Name,
-        c.Description
-        )).ToListAsync();
+        var countries = await _countryRepository.GetCountries();
+        return Ok(countries);
     }
 
     // GET: api/countries/5

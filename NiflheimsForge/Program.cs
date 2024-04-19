@@ -1,8 +1,11 @@
 using NiflheimsForge.Data;
 using Microsoft.EntityFrameworkCore;
-using NiflheimsForge.Data;
+using NiflheimsForge.Data.Interfaces;
+using NiflheimsForge.Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//builder.Services.AddScoped<ICountryRepository, CountryRepository>();
 
 builder.Services.AddCors(options =>
 {

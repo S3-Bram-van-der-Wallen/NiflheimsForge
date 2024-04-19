@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NiflheimsForge.Core\NiflheimsForge.Core.csproj" />
     <ProjectReference Include="..\NiflheimsForge.Data\NiflheimsForge.Data.csproj" />
   </ItemGroup>
 
