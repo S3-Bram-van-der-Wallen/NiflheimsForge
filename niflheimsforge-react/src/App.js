@@ -120,7 +120,7 @@ export default function App() {
     let countriesCopy = [...countries];
 
     const index = countriesCopy.findIndex((countriesCopyCountry, currentIndex) => {
-      if (countriesCopyCountry.countryId === updatedCountry.countryId) {
+      if (countriesCopyCountry.id === updatedCountry.id) {
         return true;
       }
     });

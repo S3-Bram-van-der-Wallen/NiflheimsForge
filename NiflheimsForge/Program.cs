@@ -19,6 +19,8 @@ builder.Services.AddCors(options =>
         });
 });
 
+builder.Services.AddScoped<CountryRepository, CountryRepository>();
+
 // Add services to the container.
 
 builder.Services.AddControllers();
