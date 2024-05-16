@@ -25,6 +25,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<NiflheimsForgeDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionLT")));
+builder.Services.AddScoped<CountryRepository, CountryRepository>();
 
 var app = builder.Build();
 
