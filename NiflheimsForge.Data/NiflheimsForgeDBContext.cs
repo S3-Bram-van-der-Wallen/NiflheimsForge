@@ -35,9 +35,4 @@ public class NiflheimsForgeDBContext : DbContext
 
     base.OnModelCreating(modelBuilder);
     }
-
-    /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlServer("Server=localhost;Database=NiflheimsForge;Integrated Security=True;Encrypt=True;TrustServerCertificate=True");
-    }*/
 }
