@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using NiflheimsForge.Core.Models;
 using NiflheimsForge.Data;
+using NiflheimsForge.Data.Repositories;
 
 namespace NiflheimsForge.XUnitTests
 {
@@ -14,23 +15,35 @@ namespace NiflheimsForge.XUnitTests
     {
         private readonly DbContextOptions<NiflheimsForgeDBContext> _contextOptions;
 
-        public InMemoryCountryControllerTest()
+        private NiflheimsForgeDBContext CreateInMemoryContext()
         {
-            _contextOptions = new DbContextOptionsBuilder<NiflheimsForgeDBContext>()
-                .UseInMemoryDatabase("CountryControllerTest")
-                .ConfigureWarnings(c => c.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+            var options = new DbContextOptionsBuilder<NiflheimsForgeDBContext>()
+                .UseInMemoryDatabase(databaseName: "InMemoryDatabase")
                 .Options;
 
-            using var context = new NiflheimsForgeDBContext(_contextOptions);
+            return new NiflheimsForgeDBContext(options);
+        }
 
-            context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();
+        [Fact]
+        public async Task GetAllCountries()
+        {
+            using (var context = CreateInMemoryContext())
+            {
+                context.AddRange(
+                    new Country { Id = Guid.NewGuid(), Name = "Country1", Description = "This is Country1" },
+                    new Country { Id = Guid.NewGuid(), Name = "Country2", Description = "This is Country2" });
 
-            context.AddRange(
-                new Country { Id = Guid.NewGuid(), Name = "Country1", Description = "This is Country1" },
-                new Country { Id = Guid.NewGuid(), Name = "Country1", Description = "This is Country1" });
+                context.SaveChanges();
+            }
 
-            context.SaveChanges();
+            // Create the repository instance
+            CountryRepository countryRepository = new CountryRepository(CreateInMemoryContext());
+
+            // Get the countries asynchronously
+            var countries = await countryRepository.GetCountries();
+
+            // Assert the count of countries
+            Assert.Equal(2, countries.Count());
         }
     }
 }
