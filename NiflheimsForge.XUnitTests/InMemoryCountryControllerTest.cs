@@ -36,13 +36,10 @@ namespace NiflheimsForge.XUnitTests
                 context.SaveChanges();
             }
 
-            // Create the repository instance
-            CountryRepository countryRepository = new CountryRepository(CreateInMemoryContext());
+            var countryRepository = new CountryRepository(CreateInMemoryContext());
 
-            // Get the countries asynchronously
             var countries = await countryRepository.GetCountries();
 
-            // Assert the count of countries
             Assert.Equal(2, countries.Count());
         }
     }
