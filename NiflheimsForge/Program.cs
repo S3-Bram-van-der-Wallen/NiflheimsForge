@@ -17,15 +17,13 @@ builder.Services.AddCors(options =>
         });
 });
 
-builder.Services.AddDbContext<NiflheimsForgeDBContext>(options => options.UseSqlServer(
-    builder.Configuration.GetConnectionString("DefaultConnection")));
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddDbContext<NiflheimsForgeDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionLT")));
+builder.Services.AddDbContext<NiflheimsForgeDBContext>(options => options.UseSqlServer(
+    builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<CountryRepository, CountryRepository>();
+
 
 var app = builder.Build();
 

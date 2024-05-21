@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using NiflheimsForge.Data.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace NiflheimsForge.Core.Models;
 
@@ -15,4 +16,5 @@ public class Country
     public string Description { get; set; } = string.Empty;
 
     public ICollection<City> Cities { get; } = new List<City>();
+    public List<Monster> Monsters { get; } = [];
 }
