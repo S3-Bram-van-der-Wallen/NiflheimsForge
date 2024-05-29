@@ -7,7 +7,6 @@ using NiflheimsForge.Data.Repositories;
 
 namespace NiflheimsForge.Controllers;
 
-[Route("api")]
 [ApiController]
 public class CountryController : ControllerBase
 {
