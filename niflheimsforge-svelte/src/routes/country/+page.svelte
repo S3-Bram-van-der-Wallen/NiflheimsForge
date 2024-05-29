@@ -1,8 +1,11 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
-  import { Button } from '@sveltestrap/sveltestrap';
+  import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label } from '@sveltestrap/sveltestrap';
 
   let isOpen = false;
+  let modalOpen = false;
+  let countryName = '';
+  let countryDescription = '';
   export let countries = [];
 
   async function getCountries() {
@@ -18,8 +21,35 @@
 
   onMount(getCountries);
 
-  function toggle(){
+  function toggle() {
   isOpen = !isOpen;
+  }
+
+  function toggleModal() {
+    modalOpen = !modalOpen;
+  }
+
+  async function createCountry() {
+    const countryDTO = {
+      name: countryName,
+      description: countryDescription
+    };
+    console.log(JSON.stringify(countryDTO));
+    const response = await fetch ('niflheimsforge/countries', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(countryDTO)
+    });
+
+    if (response.ok) {
+      const country = await response.json();
+      return country;
+    } else {
+      console.error(`Failed to create country: ${response.statusText}`);
+      throw new Error(response.statusText);
+    }
   }
 </script>
 
@@ -64,33 +94,47 @@
   }
 </style>
 
-  <div class="flex-container">
-    <div class="country-navigation">
-      All countries:
-      <ul>
-        {#each countries as country (country.id)}
-        <a href='#'>{country.name}</a><br/>
-        {/each}
-      </ul>
-      <div class="bottom-button">
-        <Button color="success">
-          Create a new country
-        </Button>
-      </div>
+<div class="flex-container">
+  <div class="country-navigation">
+    All countries:
+    <ul>
+      {#each countries as country (country.id)}
+      <a href='#'>{country.name}</a><br/>
+      {/each}
+    </ul>
+    <div class="bottom-button">
+      <Button color="success" on:click={toggleModal}>
+        Create a new country
+      </Button>
     </div>
-    <div class="country-content">
-      {#if !isOpen}
-        <div class="topright-button">
-            <Button on:click={toggle} color="success">
-              <span>Manage your D&D content</span>
-            </Button>
-        </div>
-      {/if}
-    </div>
-    <div class="dnd-content-manager {isOpen ? 'open' : ''}" id="dndContentManager">
-      <div class="topright-button">
-        <Button on:click={toggle} color="close">
-        </Button>
-      </div>
-    </div>  
   </div>
+  <div class="country-content">
+    {#if !isOpen}
+      <div class="topright-button">
+          <Button on:click={toggle} color="success">
+            <span>Manage your D&D content</span>
+          </Button>
+      </div>
+    {/if}
+  </div>
+  <div class="dnd-content-manager {isOpen ? 'open' : ''}" id="dndContentManager">
+    <div class="topright-button">
+      <Button on:click={toggle} color="close">
+      </Button>
+    </div>
+  </div>  
+</div>
+
+<Modal isOpen={modalOpen} toggle={toggleModal}>
+  <ModalHeader toggle={toggleModal}>Create a new country</ModalHeader>
+  <ModalBody>
+    <Label for="countryName">Country Name</Label>
+    <Input type="text" id="countryName" bind:value={countryName} placeholder="Enter country name" />
+    <Label for="countryDescription">Country Description</Label>
+    <Input type="text" id="countryDescription" bind:value={countryDescription} placeholder="Enter country description" />
+  </ModalBody>
+  <ModalFooter>
+    <Button color="success" on:click={createCountry}>Create</Button>{' '}
+    <Button color="danger" on:click={toggleModal}>Cancel</Button>
+  </ModalFooter>
+</Modal>

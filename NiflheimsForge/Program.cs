@@ -13,7 +13,7 @@ builder.Services.AddCors(options =>
             builder
             .AllowAnyMethod()
             .AllowAnyHeader()
-            .WithOrigins("http://localhost:3000", "http://localhost:5173/");
+            .WithOrigins("http://localhost:3000", "http://localhost:5173");
         });
 });
 
