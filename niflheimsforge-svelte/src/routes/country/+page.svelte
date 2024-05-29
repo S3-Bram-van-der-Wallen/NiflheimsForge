@@ -1,13 +1,28 @@
 <script lang="ts">
+  import { onMount, onDestroy } from 'svelte';
   import { Button } from '@sveltestrap/sveltestrap';
 
   let isOpen = false;
+  export let countries = [];
+
+  async function getCountries() {
+    const response = await fetch('niflheimsforge/countries');
+    if (response.ok) {
+      let newCountries = await response.json();
+      countries = newCountries.body;
+      console.log(countries);
+    } else {
+      console.error('Failed to fetch countries')
+    }
+  }
+
+  onMount(getCountries);
 
   function toggle(){
   isOpen = !isOpen;
   }
 </script>
-  
+
 <style>
   body, html {
   height: 100%;
@@ -39,19 +54,35 @@
     flex-basis: 20%
   }
   .topright-button {
-      padding: 10px; 
+    padding: 10px; 
     }
+  .bottom-button {
+    margin: auto;
+    width: 100%;
+    bottom: 10px;
+    text-align: center;
+  }
 </style>
 
   <div class="flex-container">
     <div class="country-navigation">
       All countries:
+      <ul>
+        {#each countries as country (country.id)}
+        <a href='#'>{country.name}</a><br/>
+        {/each}
+      </ul>
+      <div class="bottom-button">
+        <Button color="success">
+          Create a new country
+        </Button>
+      </div>
     </div>
     <div class="country-content">
       {#if !isOpen}
         <div class="topright-button">
             <Button on:click={toggle} color="success">
-              <span>Manage your content</span>
+              <span>Manage your D&D content</span>
             </Button>
         </div>
       {/if}
