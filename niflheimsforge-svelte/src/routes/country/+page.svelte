@@ -45,6 +45,7 @@
 
     if (response.ok) {
       const country = await response.json();
+      toggleModal();
       return country;
     } else {
       console.error(`Failed to create country: ${response.statusText}`);
