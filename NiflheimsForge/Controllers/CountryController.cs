@@ -96,8 +96,6 @@ public class CountryController : ControllerBase
         _context.Countries.Add(country);
         await _context.SaveChangesAsync();
 
-        //return CreatedAtAction(nameof(GetCountryBy), new { id = country.Id }, countryDTO);
-
         return CreatedAtAction("GetCountryBy", new { id = country.Id }, country);
     }
 
