@@ -7,18 +7,8 @@
   let countryName = '';
   let countryDescription = '';
   export let countries = [];
-
-  async function getCountries() {
-    const response = await fetch('niflheimsforge/countries');
-    if (response.ok) {
-      let newCountries = await response.json();
-      countries = newCountries.body;
-      console.log(countries);
-    } else {
-      console.error('Failed to fetch countries')
-    }
-  }
-
+  let selectedCountry = null;
+  
   onMount(getCountries);
 
   function toggle() {
@@ -29,13 +19,35 @@
     modalOpen = !modalOpen;
   }
 
+  async function getCountries() {
+    const response = await fetch(`/countries`);
+    if (response.ok) {
+      let newCountries = await response.json();
+      countries = newCountries.body;
+      console.log(countries);
+    } else {
+      console.error('Failed to fetch countries')
+    }
+}
+
+  async function getCountryBy(id) {
+    console.log(id);
+    const response = await fetch(`/countries/${id}`);
+    if (response.ok) {
+      const country = await response.json();
+      // selectedCountry = country;
+      console.log('Selected country:', selectedCountry);
+    } else {
+      console.error('Failed to fetch country, error status:', response.status);
+    }
+  }
+
   async function createCountry() {
     const countryDTO = {
       name: countryName,
       description: countryDescription
     };
-    console.log(JSON.stringify(countryDTO));
-    const response = await fetch ('niflheimsforge/countries', {
+    const response = await fetch ('/countries', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -45,11 +57,13 @@
 
     if (response.ok) {
       const country = await response.json();
+      console.log('Country created:', country);
       toggleModal();
+      await getCountries();
       return country;
     } else {
-      console.error(`Failed to create country: ${response.statusText}`);
-      throw new Error(response.statusText);
+      const responseBody = await response.json();
+      console.error(`Failed to create country page: ${responseBody.message}`);
     }
   }
 </script>
@@ -72,6 +86,10 @@
     flex: 1;
     display: flex;
     justify-content: flex-end;
+  }
+  .country-details {
+    position: fixed;
+    right: 750px;
   }
   .dnd-content-manager {
     flex: 0 0 0;
@@ -100,7 +118,7 @@
     All countries:
     <ul>
       {#each countries as country (country.id)}
-      <a href='#'>{country.name}</a><br/>
+      <a href='#' on:click={() => getCountryBy(country.id)}>{country.name}</a><br/>
       {/each}
     </ul>
     <div class="bottom-button">
@@ -110,6 +128,13 @@
     </div>
   </div>
   <div class="country-content">
+    <div class="country-details">
+      {#if selectedCountry === null}
+        <h1>Please choose a country</h1>
+      {:else}
+        <h1>selectedCountry.name</h1>
+      {/if}
+    </div>
     {#if !isOpen}
       <div class="topright-button">
           <Button on:click={toggle} color="success">

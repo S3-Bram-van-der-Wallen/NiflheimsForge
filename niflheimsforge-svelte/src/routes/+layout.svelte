@@ -6,7 +6,7 @@
     <NavbarBrand href="/">NiflheimsForge Worldbuilder</NavbarBrand>
         <Nav class="ms-auto" navbar>
             <NavItem>
-                <NavLink href="country/">Countries</NavLink>
+                <NavLink href="countries/">Countries</NavLink>
             </NavItem>
         </Nav>
   </Navbar>

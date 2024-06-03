@@ -16,7 +16,7 @@
   </style>
 
 <div class="center">
-    <Button href="country" color="success">
+    <Button href="countries" color="success">
         <span class="button-text">See your Countries</span>
     </Button>
 </div>  
