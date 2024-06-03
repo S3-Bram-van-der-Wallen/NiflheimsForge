@@ -35,7 +35,7 @@
     const response = await fetch(`/countries/${id}`);
     if (response.ok) {
       const country = await response.json();
-      // selectedCountry = country;
+      selectedCountry = country;
       console.log('Selected country:', selectedCountry);
     } else {
       console.error('Failed to fetch country, error status:', response.status);
@@ -85,11 +85,14 @@
   .country-content {
     flex: 1;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    border-style: solid;
+    border-width: 2px;
+    border-color: green;
   }
   .country-details {
     position: fixed;
-    right: 750px;
+    left: 400px;
   }
   .dnd-content-manager {
     flex: 0 0 0;
@@ -104,6 +107,8 @@
   }
   .topright-button {
     padding: 10px; 
+    position: relative;
+    left: 1300px;
     }
   .bottom-button {
     margin: auto;
@@ -132,7 +137,9 @@
       {#if selectedCountry === null}
         <h1>Please choose a country</h1>
       {:else}
-        <h1>selectedCountry.name</h1>
+        <h1>{selectedCountry.name}</h1>
+        <p>{selectedCountry.description}</p>
+        <h4>Monsters:</h4>
       {/if}
     </div>
     {#if !isOpen}
@@ -144,9 +151,10 @@
     {/if}
   </div>
   <div class="dnd-content-manager {isOpen ? 'open' : ''}" id="dndContentManager">
-    <div class="topright-button">
-      <Button on:click={toggle} color="close">
-      </Button>
+    <div style="padding: 10px">
+      {#if isOpen}
+        <Button on:click={toggle} color="danger">Close your D&D content</Button>
+      {/if}
     </div>
   </div>  
 </div>
