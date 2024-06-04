@@ -23,6 +23,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<NiflheimsForgeDBContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<CountryRepository, CountryRepository>();
+builder.Services.AddScoped<MonsterRepository, MonsterRepository>();
+builder.Services.AddScoped<HttpClient, HttpClient>();
 
 
 var app = builder.Build();
