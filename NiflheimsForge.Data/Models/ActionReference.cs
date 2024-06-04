@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace NiflheimsForge.Data.Models
 {
-    public class MonsterAction
+
+    public class ActionReference
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public string ActionName { get; set; }
+        public int Count { get; set; }
+        public string Type { get; set; }
     }
 }
