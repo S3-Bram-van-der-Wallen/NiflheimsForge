@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace NiflheimsForge.Data.Models
 {
     public class Proficiencies
     {
+        [JsonPropertyName("value")]
         public int Value { get; set; }
+
+        [JsonPropertyName("proficiency")]
         public ProficiencyReference Proficiency { get; set; }
     }
 }

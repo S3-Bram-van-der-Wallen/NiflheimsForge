@@ -13,7 +13,6 @@ public class NiflheimsForgeDBContext : DbContext
 
     public DbSet<Monster> Monsters { get; set; }
 
-    public DbSet<MonsterAction> MonsterActions { get; set; }
 
     private readonly IConfiguration _configuration;
 
