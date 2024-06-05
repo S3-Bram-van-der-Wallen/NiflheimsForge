@@ -9,6 +9,8 @@ namespace NiflheimsForge.Data.Models
 {
     public class Speed
     {
+        public int Id { get; set; }
+
         [JsonPropertyName("walk")]
         public string Walk { get; set; }
 

@@ -9,6 +9,7 @@ namespace NiflheimsForge.Data.Models
 {
     public class LegendaryAction
     {
+        public int Id { get; set; }
         [JsonPropertyName("name")]
         public string Name { get; set; }
 

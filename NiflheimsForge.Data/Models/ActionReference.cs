@@ -10,6 +10,7 @@ namespace NiflheimsForge.Data.Models
 
     public class ActionReference
     {
+        public int Id { get; set; }
         [JsonPropertyName("action_name")]
         public string ActionName { get; set; }
 

@@ -10,6 +10,8 @@ namespace NiflheimsForge.Data.Models
 {
     public class Monster
     {
+        public int Id { get; set; }
+
         [JsonPropertyName("index")]
         public string Index { get; set; }
 

@@ -9,6 +9,7 @@ namespace NiflheimsForge.Data.Models
 {
     public class DamageTypeReference
     {
+        public int Id { get; set; }
         [JsonPropertyName("index")]
         public string Index { get; set; }
 

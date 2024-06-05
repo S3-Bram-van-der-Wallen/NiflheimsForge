@@ -9,6 +9,8 @@ namespace NiflheimsForge.Data.Models
 {
     public class Proficiencies
     {
+        public int Id { get; set; }
+
         [JsonPropertyName("value")]
         public int Value { get; set; }
 

@@ -9,6 +9,8 @@ namespace NiflheimsForge.Data.Models
 {
     public class Senses
     {
+        public int Id { get; set; }
+
         [JsonPropertyName("blindsight")]
         public string Blindsight { get; set; }
 

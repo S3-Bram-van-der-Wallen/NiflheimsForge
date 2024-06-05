@@ -9,6 +9,8 @@ namespace NiflheimsForge.Data.Models
 {
     public class Usage
     {
+        public int Id { get; set; }
+
         [JsonPropertyName("type")]
         public string Type { get; set; }
 
