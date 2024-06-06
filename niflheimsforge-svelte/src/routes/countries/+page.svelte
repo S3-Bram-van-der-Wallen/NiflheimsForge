@@ -1,18 +1,23 @@
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte';
-  import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label } from '@sveltestrap/sveltestrap';
+  import { onMount } from 'svelte';
+  import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
 
   let isOpen = false;
   let modalOpen = false;
+  let selectedCountry = null;
+  export let countries = [];
   let countryName = '';
   let countryDescription = '';
-  export let countries = [];
-  let selectedCountry = null;
+  export let monsters = [];
+  let monsterName = '';
   
   onMount(getCountries);
 
   function toggle() {
-  isOpen = !isOpen;
+    isOpen = !isOpen;
+    if (isOpen) {
+      getMonsters();
+    }
   }
 
   function toggleModal() {
@@ -28,7 +33,7 @@
     } else {
       console.error('Failed to fetch countries')
     }
-}
+  }
 
   async function getCountryBy(id) {
     console.log(id);
@@ -64,6 +69,17 @@
     } else {
       const responseBody = await response.json();
       console.error(`Failed to create country page: ${responseBody.message}`);
+    }
+  }
+
+  async function getMonsters() {
+    const response = await fetch (`/monsters`);
+    if (response.ok) {
+      let newMonsters = await response.json();
+      monsters = newMonsters.body;
+      console.log(monsters);
+    } else {
+      console.error('Failed to fetch monsters')
     }
   }
 </script>
@@ -106,7 +122,9 @@
     overflow: hidden;
   }
   .dnd-content-manager.open {
-    flex-basis: 20%
+    flex-basis: 20%;
+    flex-direction: column;
+    overflow: hidden;
   }
   .bottom-button {
     margin: auto;
@@ -116,7 +134,16 @@
   }
   .dnd-content-button {
     padding: 10px;
+    position: sticky;
+    top: 0;
+    background-color: inherit;
+    z-index: 1;
   }
+  .dnd-content-list {
+    overflow-y: auto;
+    flex-grow: 1;
+    padding: 10px;
+}
 </style> 
 
 <div class="flex-container">
@@ -159,6 +186,21 @@
           {#if isOpen}
             <Button on:click={toggle} color="danger">Close your D&D content</Button>
           {/if}
+        </div>
+        <div class="dnd-content-list">
+          <ListGroup>
+            {#each monsters as monster (monster.index)}
+            <ListGroupItem>
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="monster-name">
+                    {monster.name}
+                </div>
+                <Button size="sm">Add</Button>
+              </div>
+          </ListGroupItem>
+            
+            {/each}
+          </ListGroup>
         </div>
       </div>  
 </div>
