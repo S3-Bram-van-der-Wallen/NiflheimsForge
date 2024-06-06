@@ -86,13 +86,16 @@
     flex: 1;
     display: flex;
     justify-content: flex-start;
+    flex-direction: column;
     border-style: solid;
     border-width: 2px;
     border-color: green;
   }
-  .country-details {
-    position: fixed;
-    left: 400px;
+  .country-title {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    height: 50px;
   }
   .dnd-content-manager {
     flex: 0 0 0;
@@ -105,18 +108,16 @@
   .dnd-content-manager.open {
     flex-basis: 20%
   }
-  .topright-button {
-    padding: 10px; 
-    position: relative;
-    left: 1300px;
-    }
   .bottom-button {
     margin: auto;
     width: 100%;
     bottom: 10px;
     text-align: center;
   }
-</style>
+  .dnd-content-button {
+    padding: 10px;
+  }
+</style> 
 
 <div class="flex-container">
   <div class="country-navigation">
@@ -132,31 +133,34 @@
       </Button>
     </div>
   </div>
-  <div class="country-content">
-    <div class="country-details">
-      {#if selectedCountry === null}
-        <h1>Please choose a country</h1>
-      {:else}
+    <div class="country-content">
+      <div class="country-title">
+        {#if selectedCountry === null}
+          <h1>Please choose a country</h1>
+        {:else}
         <h1>{selectedCountry.name}</h1>
-        <p>{selectedCountry.description}</p>
-        <h4>Monsters:</h4>
-      {/if}
-    </div>
-    {#if !isOpen}
-      <div class="topright-button">
+        {/if}
+        {#if !isOpen}
+        <div class="dnd-content-button">
           <Button on:click={toggle} color="success">
             <span>Manage your D&D content</span>
           </Button>
+        </div>
+        {/if}
       </div>
-    {/if}
-  </div>
-  <div class="dnd-content-manager {isOpen ? 'open' : ''}" id="dndContentManager">
-    <div style="padding: 10px">
-      {#if isOpen}
-        <Button on:click={toggle} color="danger">Close your D&D content</Button>
-      {/if}
+      <div>
+        {#if selectedCountry !== null}
+        <p>{selectedCountry.description}</p>
+        {/if}
+      </div>
     </div>
-  </div>  
+      <div class="dnd-content-manager {isOpen ? 'open' : ''}" id="dndContentManager">
+        <div class="dnd-content-button">
+          {#if isOpen}
+            <Button on:click={toggle} color="danger">Close your D&D content</Button>
+          {/if}
+        </div>
+      </div>  
 </div>
 
 <Modal isOpen={modalOpen} toggle={toggleModal}>
