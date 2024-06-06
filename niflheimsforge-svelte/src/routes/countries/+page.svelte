@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, ListGroup, ListGroupItem } from '@sveltestrap/sveltestrap';
+  import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, ListGroup, ListGroupItem, Card } from '@sveltestrap/sveltestrap';
 
   let isOpen = false;
   let modalOpen = false;
@@ -112,12 +112,12 @@
     width: 100%;
     justify-content: space-between;
     height: 50px;
+    padding: 10px;
   }
   .dnd-content-manager {
     flex: 0 0 0;
     display: flex;
     justify-content: flex-end;
-    background-color: darkgray;
     transition: flex-basis 0.5s ease-in-out;
     overflow: hidden;
   }
@@ -125,8 +125,12 @@
     flex-basis: 20%;
     flex-direction: column;
     overflow: hidden;
+    border-style: solid;
+    border-width: 2px;
+    border-color: green;
   }
   .bottom-button {
+    padding: 10px;
     margin: auto;
     width: 100%;
     bottom: 10px;
@@ -138,27 +142,31 @@
     top: 0;
     background-color: inherit;
     z-index: 1;
+    text-align: center;
   }
   .dnd-content-list {
     overflow-y: auto;
-    flex-grow: 1;
-    padding: 10px;
+    flex-grow: 1; 
+    padding: 5px;
+}
+.country-details {
+  padding: 10px;
 }
 </style> 
 
 <div class="flex-container">
   <div class="country-navigation">
-    All countries:
-    <ul>
+    <ListGroup>
+      <ListGroupItem color="success">All countries</ListGroupItem>
       {#each countries as country (country.id)}
-      <a href='#' on:click={() => getCountryBy(country.id)}>{country.name}</a><br/>
+      <ListGroupItem on:click={() => getCountryBy(country.id)} action>{country.name}</ListGroupItem>
       {/each}
-    </ul>
-    <div class="bottom-button">
-      <Button color="success" on:click={toggleModal}>
-        Create a new country
-      </Button>
-    </div>
+      </ListGroup>
+        <div class="bottom-button">
+          <Button color="success" on:click={toggleModal}>
+            Create a new country
+          </Button>
+        </div>
   </div>
     <div class="country-content">
       <div class="country-title">
@@ -168,14 +176,14 @@
         <h1>{selectedCountry.name}</h1>
         {/if}
         {#if !isOpen}
-        <div class="dnd-content-button">
+        <div>
           <Button on:click={toggle} color="success">
             <span>Manage your D&D content</span>
           </Button>
         </div>
         {/if}
       </div>
-      <div>
+      <div class="country-details">
         {#if selectedCountry !== null}
         <p>{selectedCountry.description}</p>
         {/if}
@@ -195,10 +203,11 @@
                 <div class="monster-name">
                     {monster.name}
                 </div>
-                <Button size="sm">Add</Button>
+                {#if selectedCountry !== null}
+                  <Button size="sm">Add</Button>
+                {/if}
               </div>
-          </ListGroupItem>
-            
+              </ListGroupItem>
             {/each}
           </ListGroup>
         </div>
