@@ -214,8 +214,8 @@
           <Dropdown>
             <DropdownToggle color="primary" caret>Drop</DropdownToggle>
             <DropdownMenu>
-              <DropdownItem>Another Action</DropdownItem>
-              <DropdownItem>Another Action</DropdownItem>
+              <DropdownItem>A -> Z</DropdownItem>
+              <DropdownItem>z -> A</DropdownItem>
             </DropdownMenu>
           </Dropdown>
           {/if}
