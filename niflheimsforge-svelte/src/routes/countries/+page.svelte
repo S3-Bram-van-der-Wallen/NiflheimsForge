@@ -1,6 +1,20 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, ListGroup, ListGroupItem, Card } from '@sveltestrap/sveltestrap';
+  import { 
+    Button, 
+    Modal, 
+    ModalHeader, 
+    ModalBody, 
+    ModalFooter, 
+    Input, 
+    Label, 
+    ListGroup, 
+    ListGroupItem, 
+    Dropdown,
+    DropdownItem,
+    DropdownMenu,
+    DropdownToggle 
+  } from '@sveltestrap/sveltestrap';
 
   let isOpen = false;
   let modalOpen = false;
@@ -193,6 +207,17 @@
         <div class="dnd-content-button">
           {#if isOpen}
             <Button on:click={toggle} color="danger">Close your D&D content</Button>
+          {/if}
+        </div>
+        <div class="dnd-content-filtering">
+          {#if isOpen}
+          <Dropdown>
+            <DropdownToggle color="primary" caret>Drop</DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem>Another Action</DropdownItem>
+              <DropdownItem>Another Action</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
           {/if}
         </div>
         <div class="dnd-content-list">

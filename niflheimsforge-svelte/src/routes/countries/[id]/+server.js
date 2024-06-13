@@ -1,6 +1,6 @@
 import { json } from '@sveltejs/kit';
 
-export async function GET({ params}) {
+export async function GET({ params }) {
     const response = await fetch(`http://localhost:5031/countries/${ params.id }`);
  
     if (response.ok) {
