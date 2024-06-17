@@ -166,6 +166,12 @@
 .country-details {
   padding: 10px;
 }
+.dnd-content-filtering {
+  
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 </style> 
 
 <div class="flex-container">
@@ -212,10 +218,21 @@
         <div class="dnd-content-filtering">
           {#if isOpen}
           <Dropdown>
-            <DropdownToggle color="primary" caret>Drop</DropdownToggle>
+            <DropdownToggle color="primary" caret>Sort monsters</DropdownToggle>
             <DropdownMenu>
-              <DropdownItem>A -> Z</DropdownItem>
-              <DropdownItem>z -> A</DropdownItem>
+              <DropdownItem>Name: A -> Z</DropdownItem>
+              <DropdownItem>Name: Z -> A</DropdownItem>
+              <DropdownItem>CR: 0 -> 20</DropdownItem>
+              <DropdownItem>Name: 20 -> 0</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+          <Dropdown>
+            <DropdownToggle color="secondary" caret>Sort monsters</DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem>Name: A -> Z</DropdownItem>
+              <DropdownItem>Name: Z -> A</DropdownItem>
+              <DropdownItem>CR: 0 -> 20</DropdownItem>
+              <DropdownItem>Name: 20 -> 0</DropdownItem>
             </DropdownMenu>
           </Dropdown>
           {/if}
