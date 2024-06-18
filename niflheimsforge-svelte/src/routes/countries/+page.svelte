@@ -13,17 +13,20 @@
     Dropdown,
     DropdownItem,
     DropdownMenu,
-    DropdownToggle 
+    DropdownToggle,
   } from '@sveltestrap/sveltestrap';
 
   let isOpen = false;
   let modalOpen = false;
+  let filterModalOpen = false;
   let selectedCountry = null;
   export let countries = [];
   let countryName = '';
   let countryDescription = '';
   export let monsters = [];
   let monsterName = '';
+  let minCR;
+  let maxCR;
   
   onMount(getCountries);
 
@@ -36,6 +39,10 @@
 
   function toggleModal() {
     modalOpen = !modalOpen;
+  }
+
+  function toggleFilterModal() {
+    filterModalOpen = !filterModalOpen;
   }
 
   async function getCountries() {
@@ -95,6 +102,10 @@
     } else {
       console.error('Failed to fetch monsters')
     }
+  }
+
+  async function applyFilters() {
+    
   }
 </script>
 
@@ -218,7 +229,7 @@
         <div class="dnd-content-filtering">
           {#if isOpen}
           <Dropdown>
-            <DropdownToggle color="primary" caret>Sort monsters</DropdownToggle>
+            <DropdownToggle color="success" caret>Sort monsters</DropdownToggle>
             <DropdownMenu>
               <DropdownItem>Name: A -> Z</DropdownItem>
               <DropdownItem>Name: Z -> A</DropdownItem>
@@ -227,13 +238,9 @@
             </DropdownMenu>
           </Dropdown>
           <Dropdown>
-            <DropdownToggle color="secondary" caret>Sort monsters</DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem>Name: A -> Z</DropdownItem>
-              <DropdownItem>Name: Z -> A</DropdownItem>
-              <DropdownItem>CR: 0 -> 20</DropdownItem>
-              <DropdownItem>Name: 20 -> 0</DropdownItem>
-            </DropdownMenu>
+            <Button color="success" on:click={toggleFilterModal}>
+              Show filters
+            </Button>
           </Dropdown>
           {/if}
         </div>
@@ -268,4 +275,17 @@
     <Button color="success" on:click={createCountry}>Create</Button>{' '}
     <Button color="danger" on:click={toggleModal}>Cancel</Button>
   </ModalFooter>
+</Modal>
+
+<Modal isOpen={filterModalOpen} toggle={toggleFilterModal}>
+  <ModalHeader toggle={toggleFilterModal}>Filter monsters</ModalHeader>
+  <ModalBody>
+    <Label for="monsterName">Monster Name</Label>
+    <Input type="text" id="monsterName" bind:value={monsterName} placeholder="Enter monster name" />
+    <Label for="minCR">Minimum CR</Label>
+    <Input type="number" id="minCR" bind:value={minCR} min={0} max={maxCR} placeholder="Enter a minimum CR" />
+    <Label for="maxCR">Maximum CR</Label>
+    <Input type="number" id="maxCR" bind:value={maxCR} min={minCR} max={30} placeholder="Enter a maximum CR" />
+    <Button color="success" on:click={applyFilters}>Apply filters</Button>
+  </ModalBody>
 </Modal>

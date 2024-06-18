@@ -26,6 +26,7 @@
 	"type": "module",
 	"dependencies": {
 		"@sveltestrap/sveltestrap": "^6.2.7",
-		"firebase": "^10.12.2"
+		"firebase": "^10.12.2",
+		"svelte-range-slider-pips": "^2.3.1"
 	}
 }
