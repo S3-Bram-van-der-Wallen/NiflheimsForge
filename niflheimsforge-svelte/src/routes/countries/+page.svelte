@@ -25,8 +25,7 @@
   let countryDescription = '';
   export let monsters = [];
   let monsterName = '';
-  let minCR;
-  let maxCR;
+  let CR;
   
   onMount(getCountries);
 
@@ -105,7 +104,10 @@
   }
 
   async function applyFilters() {
-    
+    if (CR < 0 || CR > 30) {
+      alert("CR value must be between 0 and 30.");
+      return;
+    }
   }
 </script>
 
@@ -282,10 +284,9 @@
   <ModalBody>
     <Label for="monsterName">Monster Name</Label>
     <Input type="text" id="monsterName" bind:value={monsterName} placeholder="Enter monster name" />
-    <Label for="minCR">Minimum CR</Label>
-    <Input type="number" id="minCR" bind:value={minCR} min={0} max={maxCR} placeholder="Enter a minimum CR" />
-    <Label for="maxCR">Maximum CR</Label>
-    <Input type="number" id="maxCR" bind:value={maxCR} min={minCR} max={30} placeholder="Enter a maximum CR" />
+    <Label for="CR">Challange Rating</Label>
+    <Input type="number" id="CR" bind:value={CR} min={0} max={30} placeholder="Enter a CR number" />
+    <Label>If a CR is chosen, the monster name will be overruled</Label>
     <Button color="success" on:click={applyFilters}>Apply filters</Button>
   </ModalBody>
 </Modal>

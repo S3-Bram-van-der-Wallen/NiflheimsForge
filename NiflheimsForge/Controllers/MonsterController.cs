@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.IdentityModel.Tokens;
 using NiflheimsForge.Data.Models;
 using NiflheimsForge.Data.Repositories;
 using NiflheimsForge.DTOs;
@@ -18,12 +19,29 @@ public class MonsterController : ControllerBase
     }
 
     [HttpGet("monsters")]
-    public async Task<ActionResult<IEnumerable<MonsterDTO>>> GetMonstersAsync()
+    public async Task<ActionResult<IEnumerable<MonsterDTO>>> GetMonstersAsync([FromQuery] MonsterFilterDTO filter)
     {
-        var response = await _httpClient.GetAsync("https://www.dnd5eapi.co/api/monsters/");
-        var monsterData = await response.Content.ReadFromJsonAsync<MonsterResponseDTO>();
+        IEnumerable<MonsterDTO> filteredMonsters = Enumerable.Empty<MonsterDTO>();
 
-        return Ok(monsterData.Results);
+        if (!filter.CR.HasValue)
+        {
+            var response = await _httpClient.GetAsync("https://www.dnd5eapi.co/api/monsters/");
+            var monsterData = await response.Content.ReadFromJsonAsync<MonsterResponseDTO>();
+
+            filteredMonsters = monsterData.Results.AsEnumerable();
+
+            if (!string.IsNullOrEmpty(filter.MonsterName))
+            {
+                filteredMonsters = filteredMonsters.Where(m => m.Name.Contains(filter.MonsterName, StringComparison.OrdinalIgnoreCase));
+            }
+        } else
+        {
+            var response = await _httpClient.GetAsync($"https://www.dnd5eapi.co/api/monsters?challenge_rating={filter.CR}");
+            var monsterData = await response.Content.ReadFromJsonAsync<MonsterResponseDTO>();
+            filteredMonsters = monsterData.Results.AsEnumerable();
+        }
+
+        return Ok(filteredMonsters);
     }
 
     [HttpGet("monsters/{index}")]
