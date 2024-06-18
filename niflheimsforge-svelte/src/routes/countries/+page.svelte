@@ -93,13 +93,28 @@
   }
 
   async function getMonsters() {
-    const response = await fetch (`/monsters`);
+    let url = '/monsters';
+    const params = new URLSearchParams();
+
+    if (monsterName) {
+      params.append('MonsterName', monsterName);
+    }
+
+    if (CR) {
+      params.append('CR', CR);
+    }
+
+    if (params.toString()) {
+      url += `?${params.toString()}`;
+    }
+
+    const response = await fetch(url);
     if (response.ok) {
       let newMonsters = await response.json();
       monsters = newMonsters.body;
       console.log(monsters);
     } else {
-      console.error('Failed to fetch monsters')
+      console.error('Failed to fetch monsters');
     }
   }
 
@@ -108,6 +123,8 @@
       alert("CR value must be between 0 and 30.");
       return;
     }
+    getMonsters();
+    toggleFilterModal();
   }
 </script>
 
