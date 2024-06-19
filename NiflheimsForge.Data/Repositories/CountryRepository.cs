@@ -27,5 +27,10 @@ namespace NiflheimsForge.Data.Repositories
                     Description = c.Description
                 }).ToListAsync();
         }
+
+        public async Task<Country> GetCountryBy(Guid? id)
+        {
+            return await _context.Countries.FindAsync(id);
+        }
     }
 }

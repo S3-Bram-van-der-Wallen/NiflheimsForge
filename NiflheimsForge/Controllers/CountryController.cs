@@ -31,19 +31,19 @@ public class CountryController : ControllerBase
     [HttpGet("countries/{id}")]
     public async Task<ActionResult<CountryDTO>> GetCountryBy(Guid? id)
     {
-        var country = await _context.Countries.FindAsync(id);   
+        var country = await _countryRepository.GetCountryBy(id);   
 
         if (country == null)
         {
             return NotFound();
         }
 
-        var countryDTO = new CountryDTO(
-            country.Id,
-            country.Name,
-            country.Description);
+        //var countryDTO = new CountryDTO(
+        //    country.Id,
+        //    country.Name,
+        //    country.Description);
 
-        return countryDTO;
+        return Ok(country);
     }
 
     // PUT: api/countries/5

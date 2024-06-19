@@ -13,8 +13,6 @@ namespace NiflheimsForge.XUnitTests
 {
     public class InMemoryCountryControllerTest
     {
-        private readonly DbContextOptions<NiflheimsForgeDBContext> _contextOptions;
-
         private NiflheimsForgeDBContext CreateInMemoryContext()
         {
             var options = new DbContextOptionsBuilder<NiflheimsForgeDBContext>()

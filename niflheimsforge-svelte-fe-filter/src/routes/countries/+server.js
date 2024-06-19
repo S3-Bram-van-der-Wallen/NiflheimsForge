@@ -29,14 +29,14 @@ export async function POST({ request }) {
     
         if (response.ok) {
             const country = await response.json();
-            return country;
+            return json(country, { status: 200 });
         } else {
-            console.error(`Failed to create country: ${response.statusText}`);
-            throw new Error(response.statusText);
+            const errorText = await response.text();
+            console.error(`Failed to create country server: ${response.statusText}`);
+            return json({ message: 'Failed to create country', error: errorText }, { status: response.status });
         }
     } catch (error) {
         console.error('Error creating country:', error);
         return json({ message: 'Internal Server Error', error: error.message }, { status: 500 });
     }
 }
-

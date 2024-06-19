@@ -8,20 +8,24 @@ namespace NiflheimsForge.Data;
 
 public class NiflheimsForgeDBContext : DbContext
 {
-    public DbSet<Country> Countries { get; set; }
+    public DbSet<Models.Action> Actions { get; set; }
+    public DbSet<ActionReference> ActionsReferences { get; set; }
     public DbSet<City> Cities { get; set; }
-
+    public DbSet<Country> Countries { get; set; }
+    public DbSet<Damage> Damages { get; set; }
+    public DbSet<DamageTypeReference> DamageTypeReferences { get; set; }
+    public DbSet<Dc> Dcs { get; set; }
+    public DbSet<LegendaryAction> legendaryActions { get; set; }
     public DbSet<Monster> Monsters { get; set; }
+    public DbSet<Proficiencies> Proficiencies { get; set; }
+    public DbSet<ProficiencyReference> ProficiencyReferences { get; set; }
+    public DbSet<Senses> Senses { get; set; }
+    public DbSet<SpecialAbility> SpecialAbilities { get; set; }
+    public DbSet<Speed> Speeds { get; set; }
+    public DbSet<Usage> Usages { get; set; }
 
-    public DbSet<MonsterAction> MonsterActions { get; set; }
 
     private readonly IConfiguration _configuration;
-
-    /*public NiflheimsForgeDBContext(DbContextOptions<NiflheimsForgeDBContext> options, IConfiguration configuration)
-        : base(options)
-    {
-        _configuration = configuration;
-    }*/
 
     public NiflheimsForgeDBContext(DbContextOptions<NiflheimsForgeDBContext> options)
         : base(options)
