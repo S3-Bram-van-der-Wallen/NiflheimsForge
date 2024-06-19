@@ -3,6 +3,7 @@ import { json } from '@sveltejs/kit';
 export async function GET({ url }) {
     const monsterName = url.searchParams.get('MonsterName');
     const CR = url.searchParams.get('CR');
+    const sortOrder = url.searchParams.get('SortOrder');
     
     let apiUrl = 'http://localhost:5031/monsters';
 
@@ -12,6 +13,9 @@ export async function GET({ url }) {
     }
     if (CR) {
         params.append('CR', CR);
+    }
+    if (sortOrder) {
+        params.append('SortOrder', sortOrder);
     }
     
     if (params.toString()) {

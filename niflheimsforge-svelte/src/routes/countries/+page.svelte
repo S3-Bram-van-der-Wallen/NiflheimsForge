@@ -26,6 +26,7 @@
   export let monsters = [];
   let monsterName = '';
   let CR;
+  let sortOrder;
   
   onMount(getCountries);
 
@@ -104,6 +105,10 @@
       params.append('CR', CR);
     }
 
+    if (sortOrder) {
+      params.append('SortOrder', sortOrder);
+    }
+
     if (params.toString()) {
       url += `?${params.toString()}`;
     }
@@ -125,6 +130,11 @@
     }
     getMonsters();
     toggleFilterModal();
+  }
+
+  function setSortOrder(order) {
+    sortOrder = order;
+    getMonsters();
   }
 </script>
 
@@ -248,12 +258,10 @@
         <div class="dnd-content-filtering">
           {#if isOpen}
           <Dropdown>
-            <DropdownToggle color="success" caret>Sort monsters</DropdownToggle>
+            <DropdownToggle color="success">Sort monsters</DropdownToggle>
             <DropdownMenu>
-              <DropdownItem>Name: A -> Z</DropdownItem>
-              <DropdownItem>Name: Z -> A</DropdownItem>
-              <DropdownItem>CR: 0 -> 20</DropdownItem>
-              <DropdownItem>Name: 20 -> 0</DropdownItem>
+              <DropdownItem on:click={() => setSortOrder('asc')}>Name: A -> Z</DropdownItem>
+              <DropdownItem on:click={() => setSortOrder('desc')}>Name: Z -> A</DropdownItem>
             </DropdownMenu>
           </Dropdown>
           <Dropdown>
